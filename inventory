@@ -1,0 +1,38 @@
+[test_vms]
+10.0.0.175 # Ubuntu 22.04LTS
+# 10.0.0.176 # empty
+10.0.0.177 # Oracle UEK
+10.0.0.178 # Rocky Linux
+10.0.0.186 # PopOS 22.04LTS
+10.0.0.239 # ASRockBox VM 100 Ubuntu 22.4
+10.0.0.172 # Acer SFF VM 105 EndavourOS
+10.0.0.181 # Acer SFF VM 103 Manjaro
+10.0.0.175 # Ubuntu 22.04 on Acer 101 proxmox
+
+[proxmox_hosts]
+10.0.0.101 # Asus SFF proxmox 
+10.0.0.102 # Acer SFF proxmox
+192.168.1.3 # pfSense and pi-hole proxmox
+10.0.0.208 # ASRock Box 4x4 proxmox
+
+[production_vms]
+10.0.0.68   # ZFS RAID VM
+10.0.0.199  # Pi-hole VM
+10.144.104.129 # yedev VM
+10.0.0.33	# kali
+
+[baremetal_hosts]
+10.0.0.179 	# 800G1 used to be Office desktop
+10.0.0.187 	# 5900X wifi
+10.0.0.188	# 5900X ethernet
+10.0.0.189	# Home office Acer Aspire SFF ethernet
+10.0.0.182	# Dell 9370 laptop
+10.0.0.185  	# Aspire 5 laptop
+10.0.0.78	# Garage Ubuntu
+10.0.0.218  	# William Kubuntu
+10.0.0.9    	# AtomicPi NAS server
+10.0.0.12   	# SSD ZFS RAID host
+10.144.104.129 # yedev machine at Company
+10.0.0.38	# Printershed 2f OctoPi
+10.0.0.219 	# Grace Aspire laptop
+10.0.0.11	# 11nas, 2.5 inches HDD ZFS pool

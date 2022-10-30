@@ -45,6 +45,13 @@ Requirements
 
     * Note: other versions are likely to work but have not been tested.
 
+Usage:
+--------------
+Run this under repo folder:
+```
+ansible-playbook -i inventory --limit 10.0.0.175 playbook.yaml
+```
+
 Role Variables
 --------------
 

@@ -1,10 +1,17 @@
 ---
 # Default theme
-oh_my_zsh_theme: robbyrussell
+oh_my_zsh_theme: gallifrey
 
 # Default plugins
 oh_my_zsh_plugins:
   - git
+  - ansible
+  - common-aliases
+  - colored-man-pages
+  - colorize
+  - pip
+  - command-not-found
+  - alias-finder
 
 # Wether to install by default for all specified users.
 # May be overridden by `oh_my_zsh_install` under each user.
