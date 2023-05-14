@@ -51,6 +51,7 @@ Usage:
 Run this under repo folder:
 ```
 ansible-playbook -i inventory --limit 10.0.0.175 playbook.yaml
+Or ansible-playbook -i 172.18.98.8, playbook.yaml
 ```
 
 Role Variables
