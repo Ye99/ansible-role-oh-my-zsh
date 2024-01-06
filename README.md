@@ -48,8 +48,9 @@ Requirements
 
 Usage:
 --------------
+git clone this repo as ansible-setup-zsh.
 This repo has my theme, plugins configured. To install ohmyzsh to a computer,
-run this under repo folder:
+run below under repo folder ansible-setup-zsh:
 ```
 ansible-playbook -i inventory --limit 10.0.0.175 playbook.yaml
 Or ansible-playbook -i 172.18.98.8, playbook.yaml
