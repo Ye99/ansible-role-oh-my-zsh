@@ -48,14 +48,19 @@ Requirements
 
 Usage:
 --------------
-git clone this repo as ansible-setup-zsh.
-This repo has my theme, plugins configured. To install ohmyzsh to a computer,
-To specify a username for whom to install zsh, use the `zsh_username` variable:
+git clone this repo anywhere; the clone directory can be named whatever you
+like. This repo has my theme, plugins configured. To install ohmyzsh to a
+computer, run `playbook.yaml` from the project root:
 ```
-ansible-playbook -i 10.0.0.175, -e "zsh_username=ye" playbook.yaml
+ansible-playbook -i 10.0.0.185, playbook.yaml
 ```
 
-Update zsh_username as needed. 
+The playbook installs for the user named by the `zsh_username` variable, which
+defaults to `ye` (see `defaults/main.yml`). To install for a different user,
+override it on the command line:
+```
+ansible-playbook -i 10.0.0.185, -e "zsh_username=someuser" playbook.yaml
+```
 
 Role Variables
 --------------

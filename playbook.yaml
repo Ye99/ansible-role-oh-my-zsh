@@ -1,7 +1,5 @@
 - hosts: all
-  vars:
-    zsh_username: "{{ zsh_username | default('ye') }}"
   roles:
-    - role: ../ansible-setup-zsh
+    - role: "{{ playbook_dir }}"
       users:
         - username: "{{ zsh_username }}"

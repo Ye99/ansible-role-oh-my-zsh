@@ -33,3 +33,7 @@ oh_my_zsh_update_frequency: 8
 # Whether to write the ~/.zshrc file
 # May be overridden by `oh_my_zsh: write_zshrc:` under each user.
 oh_my_zsh_write_zshrc: true
+
+# Default user to install oh-my-zsh for when running playbook.yaml.
+# Override on the command line with: -e "zsh_username=someuser"
+zsh_username: ye
