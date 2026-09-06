@@ -37,3 +37,11 @@ oh_my_zsh_write_zshrc: true
 # Default user to install oh-my-zsh for when running playbook.yaml.
 # Override on the command line with: -e "zsh_username=someuser"
 zsh_username: ye
+
+# Migrate PATH entries from the user's bash environment into ~/.zshrc.
+# zsh reads none of ~/.profile, ~/.bash_profile or ~/.bashrc, so any PATH entry
+# those files add (tool installers commonly append one) disappears when the
+# login shell is switched to zsh, and the tool stops resolving. When enabled,
+# the role probes the user's bash PATH on the target host and re-adds whatever
+# bash has that a bare shell does not.
+oh_my_zsh_migrate_bash_path: true

@@ -50,6 +50,37 @@
     loop_var: user
     label: '{{ user.username }}'
 
+- name: Probe bash PATH for users
+  become: true
+  become_user: '{{ user.username }}'
+  ansible.builtin.command:
+    argv:
+      - bash
+      - -c
+      # `bare=` is the PATH of a bash that reads no startup files; `login=` is
+      # the PATH of a login + interactive bash, the only mode that reads
+      # ~/.bashrc (Debian's ships a `case $- in *i*` guard that returns early
+      # otherwise). The difference between the two is exactly the set of PATH
+      # entries this user's bash dotfiles contribute.
+      # Read via `env` rather than by echoing $PATH: the value must not pass
+      # through an outer shell that would expand it before the inner one runs.
+      - |
+        bash --noprofile --norc -c env | grep '^PATH=' | sed 's/^PATH=/bare=/'
+        bash -lic env 2>/dev/null | grep '^PATH=' | sed 's/^PATH=/login=/'
+  register: oh_my_zsh_bash_path
+  changed_when: false
+  failed_when: false
+  check_mode: false
+  with_items: '{{ users }}'
+  when: >-
+    (oh_my_zsh_migrate_bash_path | bool)
+    and (((user.oh_my_zsh | default({})).install | default(oh_my_zsh_install)) | bool)
+    and (((user.oh_my_zsh | default({})).write_zshrc
+          | default(oh_my_zsh_write_zshrc)) | bool)
+  loop_control:
+    loop_var: user
+    label: '{{ user.username }}'
+
 - name: Write .zshrc for users
   become: true
   become_user: '{{ user.username }}'
@@ -61,6 +92,22 @@
   with_items: '{{ users }}'
   vars:
     user_oh_my_zsh: '{{ user.oh_my_zsh | default({}) }}'
+    bash_path_probe: >-
+      {{ (oh_my_zsh_bash_path.results | default([]))
+         | selectattr('stdout_lines', 'defined')
+         | selectattr('user.username', 'equalto', user.username)
+         | map(attribute='stdout_lines') | first | default([], true) }}
+    bash_path_bare: >-
+      {{ (bash_path_probe | select('match', '^bare=') | first
+          | default('')) | replace('bare=', '') | split(':') }}
+    bash_path_login: >-
+      {{ (bash_path_probe | select('match', '^login=') | first
+          | default('')) | replace('login=', '') | split(':') }}
+    bash_path_extras: >-
+      {{ bash_path_login
+         | reject('in', bash_path_bare)
+         | reject('equalto', '')
+         | unique | list }}
   when: >-
     ((user_oh_my_zsh.install | default(oh_my_zsh_install)) | bool)
     and ((user_oh_my_zsh.write_zshrc | default(oh_my_zsh_write_zshrc)) | bool)

@@ -96,6 +96,9 @@ oh_my_zsh_update_frequency: 13
 # May be overridden by `oh_my_zsh: write_zshrc:` under each user.
 oh_my_zsh_write_zshrc: true
 
+# Whether to migrate PATH entries from the user's bash environment.
+oh_my_zsh_migrate_bash_path: true
+
 # User configuration
 # Important: oh-my-zsh is installed per user so you need to specify the users to install it for.
 users:
@@ -119,6 +122,37 @@ users:
     oh_my_zsh:
       install: false
 ```
+
+Migrating your bash PATH
+------------------------
+
+Switching the login shell to zsh silently breaks command line tools, because
+zsh reads none of `~/.profile`, `~/.bash_profile` or `~/.bashrc`. Any `PATH`
+entry those files contribute — and tool installers routinely append one — is
+simply gone once you log in to zsh, so the tool stops resolving even though it
+is still installed.
+
+With `oh_my_zsh_migrate_bash_path: true` (the default) the role works out those
+entries on the target host rather than guessing at them. It compares the `PATH`
+of a bash started with `--noprofile --norc` against the `PATH` of a login +
+interactive bash — the only mode that reads `~/.bashrc`, whose Debian default
+returns early otherwise. Whatever the second has that the first does not is
+exactly what the user's bash dotfiles added, and the generated `~/.zshrc`
+re-adds each of those directories (if it still exists) in the same order.
+
+Nothing is hardcoded, so this picks up machine-specific directories without the
+role knowing about them. Set the variable to `false` to skip it.
+
+Note the probe reflects the bash dotfiles **as they were when Ansible last
+ran**; install something that appends to `~/.bashrc` afterwards and you need to
+re-run the playbook to pick it up.
+
+Local customizations
+--------------------
+
+The role rewrites `~/.zshrc` on every run, so edits to it are lost. Put
+machine-local settings in `~/.zshrc.local` instead — the generated `~/.zshrc`
+sources that file at the end if it exists, and the role never touches it.
 
 Example Playbook
 ----------------
